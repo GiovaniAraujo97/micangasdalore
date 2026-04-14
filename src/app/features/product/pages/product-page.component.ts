@@ -22,6 +22,8 @@ export class ProductPageComponent {
 
   private readonly productId = signal(this.route.snapshot.paramMap.get('id'));
   personalizationName = '';
+  private readonly selectedImage = signal<string | null>(null);
+  quantity = 1;
 
   readonly product = computed<Product | null>(() => {
     const id = this.productId();
@@ -32,6 +34,29 @@ export class ProductPageComponent {
     return this.catalogService.getProducts().find(item => item.id === id) ?? null;
   });
 
+  readonly displayImage = computed(() => {
+    const item = this.product();
+    if (!item) {
+      return '';
+    }
+
+    return this.selectedImage() ?? item.images[0] ?? '';
+  });
+
+  selectImage(image: string): void {
+    this.selectedImage.set(image);
+  }
+
+  increaseQuantity(): void {
+    this.quantity += 1;
+  }
+
+  decreaseQuantity(): void {
+    if (this.quantity > 1) {
+      this.quantity -= 1;
+    }
+  }
+
   addToCart(): void {
     const item = this.product();
 
@@ -39,7 +64,8 @@ export class ProductPageComponent {
       return;
     }
 
-    this.cartService.addProduct(item, 1, this.personalizationName);
+    const image = this.selectedImage() ?? item.images[0] ?? '';
+    this.cartService.addProduct(item, this.quantity, this.personalizationName, image);
     this.router.navigate(['/cart']);
   }
 }

@@ -2,7 +2,7 @@
   <header class="hero">
     <p class="eyebrow">Carrinho</p>
     <h1>Seu carrinho</h1>
-    <p class="subtitle">Revise os itens antes de seguir para o checkout.</p>
+    <p class="subtitle">Revise os itens antes de seguir para finalizar o pedido.</p>
   </header>
 
   <div class="list">
@@ -10,7 +10,7 @@
       <div class="thumb" [class.has-image]="entry.product.images.length > 0">
         <img
           *ngIf="entry.product.images.length > 0"
-          [src]="entry.product.images[0]"
+          [src]="entry.selectedImage || entry.product.images[0]"
           [alt]="entry.product.name"
         />
       </div>
@@ -23,7 +23,15 @@
         <p class="price">{{ entry.product.price | currency:'BRL' }}</p>
       </div>
       <div class="meta">
-        <p class="qty">Qtd: {{ entry.quantity }}</p>
+        <div class="qty-control">
+          <button type="button" (click)="decrease(entry.product.id, entry.quantity)">
+            -
+          </button>
+          <span>Qtd: {{ entry.quantity }}</span>
+          <button type="button" (click)="increase(entry.product.id, entry.quantity)">
+            +
+          </button>
+        </div>
         <p class="subtotal">{{ entry.product.price * entry.quantity | currency:'BRL' }}</p>
         <button type="button" class="ghost" (click)="remove(entry.product.id)">
           Remover
@@ -39,7 +47,7 @@
     </div>
     <div class="summary-actions">
       <button type="button" class="ghost" (click)="clear()">Limpar carrinho</button>
-      <a class="primary" routerLink="/checkout">Ir para o checkout</a>
+      <a class="primary" routerLink="/checkout">Finalizar pedido</a>
     </div>
   </div>
 </section>

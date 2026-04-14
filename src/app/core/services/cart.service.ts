@@ -8,24 +8,32 @@ export class CartService {
   private readonly itemsSignal = signal<CartItem[]>([]);
   readonly items = this.itemsSignal.asReadonly();
 
-  addProduct(product: Product, quantity = 1, personalizationName = ''): void {
+  addProduct(
+    product: Product,
+    quantity = 1,
+    personalizationName = '',
+    selectedImage = ''
+  ): void {
     if (quantity <= 0) {
       return;
     }
 
     const normalizedName = personalizationName.trim();
+    const normalizedImage = selectedImage.trim();
     const items = this.itemsSignal();
     const existing = items.find(
       item =>
         item.product.id === product.id &&
-        (item.personalizationName ?? '') === normalizedName
+        (item.personalizationName ?? '') === normalizedName &&
+        (item.selectedImage ?? '') === normalizedImage
     );
 
     if (existing) {
       this.itemsSignal.update(current =>
         current.map(item =>
           item.product.id === product.id &&
-          (item.personalizationName ?? '') === normalizedName
+          (item.personalizationName ?? '') === normalizedName &&
+          (item.selectedImage ?? '') === normalizedImage
             ? { ...item, quantity: item.quantity + quantity }
             : item
         )
@@ -35,7 +43,12 @@ export class CartService {
 
     this.itemsSignal.update(current => [
       ...current,
-      { product, quantity, personalizationName: normalizedName || undefined }
+      {
+        product,
+        quantity,
+        personalizationName: normalizedName || undefined,
+        selectedImage: normalizedImage || undefined
+      }
     ]);
   }
 

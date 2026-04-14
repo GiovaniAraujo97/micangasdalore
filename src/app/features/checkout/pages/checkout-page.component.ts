@@ -41,11 +41,12 @@ export class CheckoutPageComponent {
     const itemsText = this.items()
       .map(entry => {
         const personal = entry.personalizationName
-          ? ` (${entry.personalizationName})`
+          ? ` | Nome: ${entry.personalizationName}`
           : '';
-        return `${entry.product.name}${personal} x${entry.quantity}`;
+        const image = entry.selectedImage ? ` | Foto: ${entry.selectedImage}` : '';
+        return `- ${entry.product.name} x${entry.quantity}${personal}${image}`;
       })
-      .join(', ');
+      .join('\n');
     const paymentLabel = this.selectedPayment() === 'pix' ? 'Pix' : 'Dinheiro';
     const deliveryLabel = this.deliveryMethod() === 'pickup' ? 'Retirada' : 'Entrega';
     const changeNote =
@@ -56,9 +57,9 @@ export class CheckoutPageComponent {
       this.deliveryMethod() === 'delivery' && this.address().trim()
         ? ` Endereco: ${this.address().trim()}.`
         : '';
-    const message = `Oi! Quero confirmar meu pedido. Itens: ${itemsText}. Total: ${
+    const message = `Oi! Quero confirmar meu pedido.\n\nItens:\n${itemsText}\n\nTotal: ${
       this.total()
-    }. Pagamento: ${paymentLabel}.${changeNote} Entrega: ${deliveryLabel}.${addressNote}`;
+    }\nPagamento: ${paymentLabel}.${changeNote}\nEntrega: ${deliveryLabel}.${addressNote}`;
 
     return `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(message)}`;
   });

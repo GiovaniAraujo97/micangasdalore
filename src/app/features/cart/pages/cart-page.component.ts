@@ -26,6 +26,14 @@ export class CartPageComponent {
     this.cartService.removeProduct(productId);
   }
 
+  increase(productId: string, current: number): void {
+    this.cartService.updateQuantity(productId, current + 1);
+  }
+
+  decrease(productId: string, current: number): void {
+    this.cartService.updateQuantity(productId, current - 1);
+  }
+
   clear(): void {
     this.cartService.clear();
   }

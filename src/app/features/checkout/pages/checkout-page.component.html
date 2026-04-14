@@ -1,7 +1,7 @@
 <section class="page" *ngIf="items().length > 0; else empty">
   <header class="hero">
-    <p class="eyebrow">Checkout</p>
-    <h1>Finalizar compra</h1>
+    <p class="eyebrow">Finalizar Pedido</p>
+    <h1>Finalizar pedido</h1>
     <p class="subtitle">Confirme os itens antes de escolher o pagamento.</p>
   </header>
 
@@ -9,12 +9,21 @@
     <div class="panel">
       <h2>Resumo do pedido</h2>
       <article class="line" *ngFor="let entry of items()">
-        <div>
-          <p class="name">{{ entry.product.name }}</p>
-          <p class="meta">Qtd: {{ entry.quantity }}</p>
-          <p class="meta" *ngIf="entry.personalizationName">
-            Nome: {{ entry.personalizationName }}
-          </p>
+        <div class="summary-item">
+          <div class="thumb" [class.has-image]="entry.product.images.length > 0">
+            <img
+              *ngIf="entry.product.images.length > 0"
+              [src]="entry.selectedImage || entry.product.images[0]"
+              [alt]="entry.product.name"
+            />
+          </div>
+          <div>
+            <p class="name">{{ entry.product.name }}</p>
+            <p class="meta">Qtd: {{ entry.quantity }}</p>
+            <p class="meta" *ngIf="entry.personalizationName">
+              Nome: {{ entry.personalizationName }}
+            </p>
+          </div>
         </div>
         <p class="value">{{ entry.product.price * entry.quantity | currency:'BRL' }}</p>
       </article>
@@ -131,7 +140,7 @@
 <ng-template #empty>
   <section class="page">
     <header class="hero">
-      <p class="eyebrow">Checkout</p>
+      <p class="eyebrow">Finalizar Pedido</p>
       <h1>Seu carrinho esta vazio</h1>
       <p class="subtitle">Escolha uma pulseira antes de finalizar.</p>
     </header>

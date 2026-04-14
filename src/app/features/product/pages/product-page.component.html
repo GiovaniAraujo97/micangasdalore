@@ -10,11 +10,16 @@
   <div class="layout">
     <div class="gallery">
       <div class="media" [class.has-image]="item.images.length > 0">
-        <img *ngIf="item.images.length > 0" [src]="item.images[0]" [alt]="item.name" />
+        <img *ngIf="displayImage()" [src]="displayImage()" [alt]="item.name" />
       </div>
       <div class="thumbs" aria-hidden="true">
         <ng-container *ngFor="let image of item.images">
-          <img [src]="image" [alt]="item.name" />
+          <img
+            [src]="image"
+            [alt]="item.name"
+            [class.active]="displayImage() === image"
+            (click)="selectImage(image)"
+          />
         </ng-container>
       </div>
       <p class="note">Area reservada para fotos e carrossel.</p>
@@ -51,6 +56,12 @@
             <span class="dot"></span>
             <span>Prazo estimado: a combinar</span>
           </div>
+        </div>
+
+        <div class="qty-control">
+          <button type="button" (click)="decreaseQuantity()">-</button>
+          <span>Qtd: {{ quantity }}</span>
+          <button type="button" (click)="increaseQuantity()">+</button>
         </div>
 
         <button type="button" class="primary" (click)="addToCart()">Adicionar ao carrinho</button>

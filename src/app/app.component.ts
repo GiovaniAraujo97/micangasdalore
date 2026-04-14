@@ -1,5 +1,5 @@
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Component, ElementRef, HostListener, ViewChild, inject } from '@angular/core';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +12,15 @@ export class AppComponent {
   isMenuOpen = false;
   showScrollTop = false;
   @ViewChild('header', { static: true }) headerRef!: ElementRef<HTMLElement>;
+  private readonly router = inject(Router);
+
+  constructor() {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+  }
 
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
