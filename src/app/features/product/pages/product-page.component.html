@@ -1,4 +1,74 @@
-<section class="page">
-  <h1>Produto</h1>
-  <p>Em breve: fotos, carrossel e personalizacao.</p>
+<section class="page" *ngIf="product() as item; else notFound">
+  <header class="hero">
+    <p class="eyebrow">Produto</p>
+    <h1>{{ item.name }}</h1>
+    <p class="subtitle">
+      Pulseirinhas para todos os estilos. Em breve: fotos, carrossel e personalizacao.
+    </p>
+  </header>
+
+  <div class="layout">
+    <div class="gallery">
+      <div class="media" [class.has-image]="item.images.length > 0">
+        <img *ngIf="item.images.length > 0" [src]="item.images[0]" [alt]="item.name" />
+      </div>
+      <div class="thumbs" aria-hidden="true">
+        <ng-container *ngFor="let image of item.images">
+          <img [src]="image" [alt]="item.name" />
+        </ng-container>
+      </div>
+      <p class="note">Area reservada para fotos e carrossel.</p>
+    </div>
+
+    <div class="details">
+      <div class="card">
+        <p class="label">Ver pulseira</p>
+        <h2>{{ item.category }}</h2>
+        <p class="price">{{ item.price | currency:'BRL' }}</p>
+        <p class="description" *ngIf="item.category === 'Nome Personalizado'">
+          Selecione esta pulseira para continuar. Informe o nome para personalizacao.
+        </p>
+
+        <label class="field" *ngIf="item.category === 'Nome Personalizado'">
+          Nome para a pulseira
+          <input
+            type="text"
+            name="personalizationName"
+            placeholder="Digite o nome"
+            [(ngModel)]="personalizationName"
+            [ngModelOptions]="{ standalone: true }"
+            (click)="$event.stopPropagation()"
+            (touchstart)="$event.stopPropagation()"
+          />
+        </label>
+
+        <div class="options">
+          <div class="option" *ngIf="item.category === 'Nome Personalizado'">
+            <span class="dot"></span>
+            <span>Personalizacao disponivel</span>
+          </div>
+          <div class="option">
+            <span class="dot"></span>
+            <span>Prazo estimado: a combinar</span>
+          </div>
+        </div>
+
+        <button type="button" class="primary" (click)="addToCart()">Adicionar ao carrinho</button>
+        <a class="ghost" routerLink="/">Voltar ao catalogo</a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">© 2026 MicangasDaLore</footer>
 </section>
+
+<ng-template #notFound>
+  <section class="page">
+    <header class="hero">
+      <p class="eyebrow">Produto</p>
+      <h1>Produto nao encontrado</h1>
+      <p class="subtitle">Escolha outra pulseira no catalogo.</p>
+    </header>
+    <a class="ghost" routerLink="/">Voltar ao catalogo</a>
+  </section>
+</ng-template>

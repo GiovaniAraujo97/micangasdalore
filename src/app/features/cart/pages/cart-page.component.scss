@@ -1,3 +1,163 @@
 .page {
-  padding: 1.5rem 0;
+  padding: 2.5rem 0 3rem;
+  display: grid;
+  gap: 2rem;
+}
+
+.hero {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.7rem;
+}
+
+.subtitle {
+  max-width: 46ch;
+}
+
+.list {
+  display: grid;
+  gap: 1rem;
+}
+
+.item {
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #fff7ef;
+}
+
+.thumb {
+  width: 120px;
+  height: 120px;
+  border-radius: 18px;
+  background: linear-gradient(120deg, #ffd7ba, #f6b3c6, #ffecb2);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.thumb::after {
+  content: '';
+  position: absolute;
+  inset: 20% 12% auto 12%;
+  height: 50%;
+  border-radius: 16px;
+  border: 1px dashed rgba(0, 0, 0, 0.18);
+}
+
+.thumb.has-image::after {
+  display: none;
+}
+
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.info {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.category {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.7rem;
+}
+
+.price {
+  font-weight: 600;
+}
+
+.meta {
+  display: grid;
+  gap: 0.35rem;
+  text-align: right;
+}
+
+.qty {
+  font-size: 0.85rem;
+}
+
+.subtotal {
+  font-weight: 600;
+}
+
+.summary {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #fff;
+}
+
+.label {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.7rem;
+}
+
+.total {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.summary-actions {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.primary,
+.ghost {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: 999px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.primary {
+  background: #f17c6c;
+  color: #fff;
+}
+
+.ghost {
+  background: transparent;
+  color: #2f2f2f;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+@media (min-width: 720px) {
+  .item {
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+  }
+
+  .summary {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .summary-actions {
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+  }
 }

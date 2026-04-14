@@ -23,11 +23,24 @@ export class AppComponent {
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
+    if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) {
+      return;
+    }
+
     if (!this.isMenuOpen || !this.headerRef) {
       return;
     }
 
     const target = event.target as Node | null;
+    if (target && target instanceof Element) {
+      const isFormField = target.closest(
+        'input, textarea, select, [contenteditable="true"]'
+      );
+      if (isFormField) {
+        return;
+      }
+    }
+
     if (target && !this.headerRef.nativeElement.contains(target)) {
       this.closeMenu();
     }

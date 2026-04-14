@@ -1,4 +1,140 @@
-<section class="page">
-  <h1>Checkout</h1>
-  <p>Em breve: pagamento em dinheiro ou Pix.</p>
+<section class="page" *ngIf="items().length > 0; else empty">
+  <header class="hero">
+    <p class="eyebrow">Checkout</p>
+    <h1>Finalizar compra</h1>
+    <p class="subtitle">Confirme os itens antes de escolher o pagamento.</p>
+  </header>
+
+  <div class="layout">
+    <div class="panel">
+      <h2>Resumo do pedido</h2>
+      <article class="line" *ngFor="let entry of items()">
+        <div>
+          <p class="name">{{ entry.product.name }}</p>
+          <p class="meta">Qtd: {{ entry.quantity }}</p>
+          <p class="meta" *ngIf="entry.personalizationName">
+            Nome: {{ entry.personalizationName }}
+          </p>
+        </div>
+        <p class="value">{{ entry.product.price * entry.quantity | currency:'BRL' }}</p>
+      </article>
+    </div>
+
+    <div class="panel payment">
+      <h2>Pagamento</h2>
+      <p class="hint">Escolha como deseja pagar.</p>
+
+      <div class="choices" role="radiogroup" aria-label="Metodo de pagamento">
+        <button
+          type="button"
+          class="choice"
+          [class.active]="selectedPayment() === 'pix'"
+          (click)="selectPayment('pix')"
+        >
+          Pix
+        </button>
+        <button
+          type="button"
+          class="choice"
+          [class.active]="selectedPayment() === 'cash'"
+          (click)="selectPayment('cash')"
+        >
+          Dinheiro
+        </button>
+      </div>
+
+      <div class="payment-details" *ngIf="selectedPayment() === 'pix'">
+        <p class="detail-title">Chave Pix</p>
+        <p class="detail-value">1195101-0254</p>
+        <p class="detail-note">Envie o comprovante pelo WhatsApp para confirmar.</p>
+      </div>
+
+      <div class="payment-details" *ngIf="selectedPayment() === 'cash'">
+        <p class="detail-title">Pagamento em dinheiro</p>
+        <p class="detail-note">Combine a entrega e tenha o valor em maos.</p>
+        <label class="field">
+          Troco para quanto?
+          <input
+            type="text"
+            placeholder="Ex: 50"
+            [value]="changeFor()"
+            (input)="changeFor.set(($any($event.target).value || '').toString())"
+          />
+        </label>
+      </div>
+
+      <div class="delivery">
+        <p class="detail-title">Entrega</p>
+        <div class="choices" role="radiogroup" aria-label="Metodo de entrega">
+          <button
+            type="button"
+            class="choice"
+            [class.active]="deliveryMethod() === 'pickup'"
+            (click)="selectDelivery('pickup')"
+          >
+            Retirar
+          </button>
+          <button
+            type="button"
+            class="choice"
+            [class.active]="deliveryMethod() === 'delivery'"
+            (click)="selectDelivery('delivery')"
+          >
+            Envio
+          </button>
+        </div>
+
+        <label class="field" *ngIf="deliveryMethod() === 'delivery'">
+          Endereco para entrega
+          <input
+            type="text"
+            placeholder="Rua, numero, bairro"
+            [value]="address()"
+            (input)="address.set(($any($event.target).value || '').toString())"
+          />
+        </label>
+        <p class="detail-note">
+          Taxa de entrega sera cobrada e informada pelo WhatsApp no fechamento do pedido.
+        </p>
+      </div>
+
+      <div class="total">
+        <span>Total</span>
+        <strong>{{ total() | currency:'BRL' }}</strong>
+      </div>
+
+      <button
+        type="button"
+        class="primary"
+        (click)="confirmOrder()"
+        [disabled]="!canConfirm()"
+      >
+        Confirmar pedido
+      </button>
+      <p class="success" *ngIf="isConfirmed()">
+        Pedido confirmado! Vamos falar com voce pelo WhatsApp para combinar.
+      </p>
+      <a
+        class="ghost"
+        [href]="whatsappLink()"
+        target="_blank"
+        rel="noopener noreferrer"
+        *ngIf="isConfirmed()"
+      >
+        Enviar mensagem no WhatsApp
+      </a>
+      <a class="ghost" routerLink="/">Continuar comprando</a>
+    </div>
+  </div>
 </section>
+
+<ng-template #empty>
+  <section class="page">
+    <header class="hero">
+      <p class="eyebrow">Checkout</p>
+      <h1>Seu carrinho esta vazio</h1>
+      <p class="subtitle">Escolha uma pulseira antes de finalizar.</p>
+    </header>
+    <a class="primary" routerLink="/">Voltar ao catalogo</a>
+  </section>
+</ng-template>

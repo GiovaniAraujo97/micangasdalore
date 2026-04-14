@@ -1,4 +1,56 @@
-<section class="page">
-  <h1>Carrinho</h1>
-  <p>Em breve: itens, quantidade e total.</p>
+<section class="page" *ngIf="items().length > 0; else empty">
+  <header class="hero">
+    <p class="eyebrow">Carrinho</p>
+    <h1>Seu carrinho</h1>
+    <p class="subtitle">Revise os itens antes de seguir para o checkout.</p>
+  </header>
+
+  <div class="list">
+    <article class="item" *ngFor="let entry of items()">
+      <div class="thumb" [class.has-image]="entry.product.images.length > 0">
+        <img
+          *ngIf="entry.product.images.length > 0"
+          [src]="entry.product.images[0]"
+          [alt]="entry.product.name"
+        />
+      </div>
+      <div class="info">
+        <p class="category">{{ entry.product.category }}</p>
+        <h2>{{ entry.product.name }}</h2>
+        <p class="note" *ngIf="entry.personalizationName">
+          Nome: {{ entry.personalizationName }}
+        </p>
+        <p class="price">{{ entry.product.price | currency:'BRL' }}</p>
+      </div>
+      <div class="meta">
+        <p class="qty">Qtd: {{ entry.quantity }}</p>
+        <p class="subtotal">{{ entry.product.price * entry.quantity | currency:'BRL' }}</p>
+        <button type="button" class="ghost" (click)="remove(entry.product.id)">
+          Remover
+        </button>
+      </div>
+    </article>
+  </div>
+
+  <div class="summary">
+    <div>
+      <p class="label">Total</p>
+      <p class="total">{{ total() | currency:'BRL' }}</p>
+    </div>
+    <div class="summary-actions">
+      <button type="button" class="ghost" (click)="clear()">Limpar carrinho</button>
+      <a class="primary" routerLink="/checkout">Ir para o checkout</a>
+    </div>
+  </div>
 </section>
+
+<ng-template #empty>
+  <section class="page">
+    <header class="hero">
+      <p class="eyebrow">Carrinho</p>
+      <h1>Seu carrinho esta vazio</h1>
+      <p class="subtitle">Escolha uma pulseira para continuar.</p>
+    </header>
+    <a class="primary" routerLink="/">Voltar ao catalogo</a>
+  </section>
+</ng-template>
