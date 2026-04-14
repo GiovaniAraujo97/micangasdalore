@@ -1,0 +1,27 @@
+<section class="page">
+  <div class="mobile-summary">
+    <span class="pill">Todos</span>
+    <h1>Pulseirinhas para todos os estilos</h1>
+  </div>
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Catalogo de pulseiras</p>
+      <h1>Pulseirinhas para todos os estilos</h1>
+      <p class="subtitle">
+        Escolha a pulseira que mais combina com voce ou personalize com nome.
+      </p>
+    </div>
+  </header>
+
+  <app-category-filter
+    [categories]="categories()"
+    [selected]="selectedCategory()"
+    (selectedChange)="selectedCategory.set($event)"
+  />
+
+  <div class="grid">
+    @for (product of visibleProducts(); track product.id) {
+      <app-product-card [product]="product" />
+    }
+  </div>
+</section>

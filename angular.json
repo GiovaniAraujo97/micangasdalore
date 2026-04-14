@@ -29,6 +29,16 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/app/shared/assets",
+                "output": "/shared-assets"
               }
             ],
             "styles": [
@@ -88,6 +98,16 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/app/shared/assets",
+                "output": "/shared-assets"
               }
             ],
             "styles": [
@@ -98,5 +118,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "0b0c8bb3-51a8-49dd-9bfc-47630873ec50"
   }
 }

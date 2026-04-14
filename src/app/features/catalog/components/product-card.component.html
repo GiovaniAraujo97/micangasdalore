@@ -1,0 +1,11 @@
+<article class="card">
+  <div class="image">
+    <img [src]="product.images[0]" [alt]="product.name" />
+  </div>
+  <div class="body">
+    <p class="category">{{ product.category }}</p>
+    <h3>{{ product.name }}</h3>
+    <p class="price">{{ product.price | currency:'BRL' }}</p>
+    <a class="cta" [routerLink]="['/product', product.id]">Ver pulseira</a>
+  </div>
+</article>
