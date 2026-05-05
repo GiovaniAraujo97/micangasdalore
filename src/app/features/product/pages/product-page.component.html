@@ -29,7 +29,8 @@
       <div class="card">
         <p class="label">Ver pulseira</p>
         <h2>{{ item.category }}</h2>
-        <p class="price">{{ item.price | currency:'BRL' }}</p>
+        <p class="price">{{ item.price * quantity | currency:'BRL' }}</p>
+        <p class="unit-price">Unitario: {{ item.price | currency:'BRL' }}</p>
         <p class="description" *ngIf="item.category === 'Nome Personalizado'">
           Selecione esta pulseira para continuar. Informe o nome para personalizacao.
         </p>

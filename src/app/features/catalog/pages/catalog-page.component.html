@@ -23,4 +23,8 @@
       <app-product-card [product]="product" />
     }
   </div>
+
+  @if (visibleProducts().length === 0 && isComingSoonCategory()) {
+    <p class="coming-soon">Aguarde mais novidades</p>
+  }
 </section>

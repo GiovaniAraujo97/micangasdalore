@@ -13,13 +13,16 @@ import { ProductCardComponent } from '../components/product-card.component';
 })
 export class CatalogPageComponent {
   private readonly catalogService = inject(CatalogService);
+  private readonly allCategories = ['Todas', 'Coloridas', 'Nome Personalizado', 'Amizade'];
 
   private readonly productsSignal = signal(this.catalogService.getProducts());
   readonly selectedCategory = signal('Todas');
 
-  readonly categories = computed(() => {
-    const categories = this.productsSignal().map(product => product.category);
-    return ['Todas', ...Array.from(new Set(categories))];
+  readonly categories = computed(() => this.allCategories);
+
+  readonly isComingSoonCategory = computed(() => {
+    const selected = this.selectedCategory();
+    return selected === 'Nome Personalizado' || selected === 'Amizade';
   });
 
   readonly visibleProducts = computed(() => {

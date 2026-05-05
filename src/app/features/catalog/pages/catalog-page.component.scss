@@ -52,6 +52,16 @@
   gap: 1.25rem;
 }
 
+.coming-soon {
+  margin: 0;
+  padding: 1rem 1.25rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(79, 110, 255, 0.3);
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--peach-ink);
+  font-weight: 700;
+}
+
 @media (max-width: 720px) {
   .page-header {
     display: none;

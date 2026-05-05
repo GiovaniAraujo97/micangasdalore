@@ -6,34 +6,36 @@ export class CatalogService {
   private readonly products: Product[] = [
     {
       id: 'p1',
-      name: 'Arco-iris doce',
+      name: 'Perolas Doce',
       category: 'Coloridas',
-      price: 12,
-      images: ['/bracelets/coloridas/rainbow-1.jpg', '/bracelets/coloridas/rainbow-2.jpg']
-    },
-    {
-      id: 'p2',
-      name: 'Flor lilas',
-      category: 'Coloridas',
-      price: 10,
-      images: ['/bracelets/coloridas/flower-1.jpg']
-    },
-    {
-      id: 'p3',
-      name: 'Meu nome em perolas',
-      category: 'Nome Personalizado',
-      price: 15,
+      price: 6.9,
       images: [
-        '/bracelets/nome-personalizado/name-1.jpg',
-        '/bracelets/nome-personalizado/name-2.jpg'
+        '/bracelets/coloridas/perolas-doce.jpg',
+        '/bracelets/coloridas/perolas-doce2.jpg',
+        '/bracelets/coloridas/perolas-doce3.jpg'
       ]
     },
     {
-      id: 'p4',
-      name: 'Cora de amizade',
-      category: 'Amizade',
-      price: 9,
-      images: ['/bracelets/amizade/heart-1.jpg']
+      id: 'p2',
+      name: 'Perolas Flor',
+      category: 'Coloridas',
+      price: 7,
+      images: [
+        '/bracelets/coloridas/perolas-flor.jpg',
+        '/bracelets/coloridas/perolas-flor2.jpg',
+        '/bracelets/coloridas/perolas-flor3.jpg'
+      ]
+    },
+    {
+      id: 'p3',
+      name: 'Perolas Star',
+      category: 'Coloridas',
+      price: 8.5,
+      images: [
+        '/bracelets/coloridas/perolas-star.jpg',
+        '/bracelets/coloridas/perolas-star2.jpg',
+        '/bracelets/coloridas/perolas-star3.jpg'
+      ]
     }
   ];
 

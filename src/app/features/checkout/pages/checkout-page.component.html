@@ -74,37 +74,7 @@
 
       <div class="delivery">
         <p class="detail-title">Entrega</p>
-        <div class="choices" role="radiogroup" aria-label="Metodo de entrega">
-          <button
-            type="button"
-            class="choice"
-            [class.active]="deliveryMethod() === 'pickup'"
-            (click)="selectDelivery('pickup')"
-          >
-            Retirar
-          </button>
-          <button
-            type="button"
-            class="choice"
-            [class.active]="deliveryMethod() === 'delivery'"
-            (click)="selectDelivery('delivery')"
-          >
-            Envio
-          </button>
-        </div>
-
-        <label class="field" *ngIf="deliveryMethod() === 'delivery'">
-          Endereco para entrega
-          <input
-            type="text"
-            placeholder="Rua, numero, bairro"
-            [value]="address()"
-            (input)="address.set(($any($event.target).value || '').toString())"
-          />
-        </label>
-        <p class="detail-note">
-          Taxa de entrega sera cobrada e informada pelo WhatsApp no fechamento do pedido.
-        </p>
+        <p class="detail-note">Entrega a combinar pelo Whats</p>
       </div>
 
       <div class="total">

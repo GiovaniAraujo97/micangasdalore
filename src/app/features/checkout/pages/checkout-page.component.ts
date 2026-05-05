@@ -17,9 +17,7 @@ export class CheckoutPageComponent {
   readonly selectedPayment = signal<'pix' | 'cash'>('pix');
   readonly isConfirmed = signal(false);
   readonly whatsappNumber = '5511951010254';
-  readonly deliveryMethod = signal<'pickup' | 'delivery'>('pickup');
   readonly changeFor = signal('');
-  readonly address = signal('');
 
   readonly items = this.cartService.items;
   readonly total = computed(() =>
@@ -29,13 +27,7 @@ export class CheckoutPageComponent {
     )
   );
 
-  readonly canConfirm = computed(() => {
-    if (this.deliveryMethod() === 'delivery') {
-      return this.address().trim().length > 0;
-    }
-
-    return true;
-  });
+  readonly canConfirm = computed(() => true);
 
   readonly whatsappLink = computed(() => {
     const itemsText = this.items()
@@ -48,18 +40,13 @@ export class CheckoutPageComponent {
       })
       .join('\n');
     const paymentLabel = this.selectedPayment() === 'pix' ? 'Pix' : 'Dinheiro';
-    const deliveryLabel = this.deliveryMethod() === 'pickup' ? 'Retirada' : 'Entrega';
     const changeNote =
       this.selectedPayment() === 'cash' && this.changeFor().trim()
         ? ` Troco para: ${this.changeFor().trim()}.`
         : '';
-    const addressNote =
-      this.deliveryMethod() === 'delivery' && this.address().trim()
-        ? ` Endereco: ${this.address().trim()}.`
-        : '';
     const message = `Oi! Quero confirmar meu pedido.\n\nItens:\n${itemsText}\n\nTotal: ${
       this.total()
-    }\nPagamento: ${paymentLabel}.${changeNote}\nEntrega: ${deliveryLabel}.${addressNote}`;
+    }\nPagamento: ${paymentLabel}.${changeNote}\nEntrega: a combinar pelo Whats.`;
 
     return `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(message)}`;
   });
@@ -70,9 +57,5 @@ export class CheckoutPageComponent {
 
   confirmOrder(): void {
     this.isConfirmed.set(true);
-  }
-
-  selectDelivery(method: 'pickup' | 'delivery'): void {
-    this.deliveryMethod.set(method);
   }
 }
