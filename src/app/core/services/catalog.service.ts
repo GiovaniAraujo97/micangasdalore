@@ -6,7 +6,7 @@ export class CatalogService {
   private readonly products: Product[] = [
     {
       id: 'p1',
-      name: 'Perolas Doce',
+      name: 'Pérola Doce',
       category: 'Coloridas',
       price: 6.9,
       images: [
@@ -17,7 +17,7 @@ export class CatalogService {
     },
     {
       id: 'p2',
-      name: 'Perolas Flor',
+      name: 'Pérolas Floridas',
       category: 'Coloridas',
       price: 7,
       images: [
@@ -28,7 +28,7 @@ export class CatalogService {
     },
     {
       id: 'p3',
-      name: 'Perolas Star',
+      name: 'Star Pérolada',
       category: 'Coloridas',
       price: 8.5,
       images: [

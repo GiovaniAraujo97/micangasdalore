@@ -1,3 +1,10 @@
+.card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  border-radius: 16px;
+}
+
 .card {
   background: var(--white);
   border: 1px solid var(--card-border);
@@ -6,6 +13,21 @@
   display: grid;
   grid-template-rows: 180px 1fr;
   box-shadow: 0 12px 24px rgba(141, 164, 245, 0.35);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.card-link:hover .card {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 28px rgba(141, 164, 245, 0.42);
+}
+
+.card-link:active .card {
+  transform: scale(0.99);
+}
+
+.card-link:focus-visible {
+  outline: 3px solid rgba(79, 110, 255, 0.5);
+  outline-offset: 3px;
 }
 
 .image {
@@ -47,7 +69,6 @@
 
 .cta {
   justify-self: start;
-  text-decoration: none;
   background: linear-gradient(120deg, var(--pink-soft), var(--blue-baby));
   color: var(--peach-ink);
   padding: 0.45rem 0.8rem;

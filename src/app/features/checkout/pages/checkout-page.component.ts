@@ -13,6 +13,10 @@ import { CartService } from '../../../core/services/cart.service';
 })
 export class CheckoutPageComponent {
   private readonly cartService = inject(CartService);
+  private readonly moneyFormatter = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  });
 
   readonly selectedPayment = signal<'pix' | 'cash'>('pix');
   readonly isConfirmed = signal(false);
@@ -30,22 +34,42 @@ export class CheckoutPageComponent {
   readonly canConfirm = computed(() => true);
 
   readonly whatsappLink = computed(() => {
+    const toCurrency = (value: number): string => this.moneyFormatter.format(value);
+    const parseMoneyInput = (value: string): number | null => {
+      const normalized = value.replace(/\./g, '').replace(',', '.').trim();
+      if (!normalized) {
+        return null;
+      }
+
+      const parsed = Number(normalized);
+      return Number.isFinite(parsed) ? parsed : null;
+    };
+    const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
+
     const itemsText = this.items()
       .map(entry => {
         const personal = entry.personalizationName
           ? ` | Nome: ${entry.personalizationName}`
           : '';
-        const image = entry.selectedImage ? ` | Foto: ${entry.selectedImage}` : '';
-        return `- ${entry.product.name} x${entry.quantity}${personal}${image}`;
+        const selectedImage = entry.selectedImage || entry.product.images[0] || '';
+        const fullImageUrl = selectedImage
+          ? selectedImage.startsWith('http')
+            ? selectedImage
+            : `${baseUrl}${selectedImage}`
+          : '';
+        const image = fullImageUrl ? ` | Foto: ${fullImageUrl}` : '';
+        const itemTotal = entry.product.price * entry.quantity;
+        return `- ${entry.product.name} x${entry.quantity} (${toCurrency(itemTotal)})${personal}${image}`;
       })
       .join('\n');
     const paymentLabel = this.selectedPayment() === 'pix' ? 'Pix' : 'Dinheiro';
+    const changeValue = parseMoneyInput(this.changeFor());
     const changeNote =
-      this.selectedPayment() === 'cash' && this.changeFor().trim()
-        ? ` Troco para: ${this.changeFor().trim()}.`
+      this.selectedPayment() === 'cash' && this.changeFor().trim().length > 0
+        ? ` Troco para: ${changeValue === null ? this.changeFor().trim() : toCurrency(changeValue)}.`
         : '';
     const message = `Oi! Quero confirmar meu pedido.\n\nItens:\n${itemsText}\n\nTotal: ${
-      this.total()
+      toCurrency(this.total())
     }\nPagamento: ${paymentLabel}.${changeNote}\nEntrega: a combinar pelo Whats.`;
 
     return `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(message)}`;
